@@ -1,63 +1,92 @@
 import random
 
-name = input("Name: ")
-print(f"Hey welcome Back! {name}")
+valid_choices = ["rock", "paper", "scissors"]
+
+name = input("Enter your name: ")
+print(f"\nHey, welcome back {name}!")
 print("---------------------------")
-print("This is the Rock, Paper & Scissors game buddy.")
-round_choice = int(input("How many Round do you want to play?: "))
-print("You just have to right rock paper scissors.")
-print("points----Bellw-----")
+print("This is the Rock, Paper & Scissors game.")
 print()
-print("1.if you got Rock and win the round your point will increase by = 2")
-print("1.if you got Paper and win the round your point will increase by = 1")
-print("3.if you got Scissors and win the round your point will increase by = 3")
-print()
-for  _ in range(round_choice):
-    
-    print("You can press q to quite!")
-    user_choice = input("Enter your choice: ").lower()
+
+round_choice = int(input("How many rounds do you want to play?: "))
+
+print("\nRules:")
+print("Rock win  -> +2 points")
+print("Paper win -> +1 point")
+print("Scissors win -> +3 points")
+print("\nType 'q' anytime to quit the game.")
+print("------------------------------------------")
+
+user_point = 0
+computer_point = 0
+
+for round_no in range(1, round_choice + 1):
+
+    print(f"\nRound {round_no}")
+    user_choice = input("Enter rock, paper, or scissors: ").lower()
+
+    if user_choice == "q":
+        print("\nYou quit the game early.")
+        break
+
+    if user_choice not in valid_choices:
+        print("Invalid input. Please type one of these correctly:")
+        print(valid_choices)
+        continue
 
     computer_choice = random.randint(1, 3)
 
     match (computer_choice, user_choice):
+
         case (1, "rock"):
-            user_point, computer_point = 2, 2
-            print("This is a draw. Both of you got +2")
+            user_point += 2
+            computer_point += 2
+            print("Draw! Both players got +2 points.")
 
         case (2, "paper"):
-            user_point, computer_point = 1, 1
-            print("This is a draw. Both of you got +1")
+            user_point += 1
+            computer_point += 1
+            print("Draw! Both players got +1 point.")
 
         case (3, "scissors"):
-            user_point, computer_point = 3, 3
-            print("This is a draw. Both of you got +3")
+            user_point += 3
+            computer_point += 3
+            print("Draw! Both players got +3 points.")
 
-        case (1, "paper"): 
-            user_point, computer_point = 1, 0
-            print(f"Hey {name}, you won! You got +1")
+        case (1, "paper"):
+            user_point += 1
+            print("You won this round! You got +1 point.")
 
-        case (2, "scissors"): 
-            user_point, computer_point = 3, 0
-            print(f"Hey {name}, you won! You got +3")
+        case (2, "scissors"):
+            user_point += 3
+            print("You won this round! You got +3 points.")
 
-        case (3, "rock"):  
-            user_point, computer_point = 2, 0
-            print(f"Hey {name}, you won! You got +2")
+        case (3, "rock"):
+            user_point += 2
+            print("You won this round! You got +2 points.")
 
         case (1, "scissors"):
-            user_point, computer_point = 0, 2
-            print("Computer wins! Computer got +2")
+            computer_point += 2
+            print("Computer won this round! Computer got +2 points.")
 
         case (2, "rock"):
-            user_point, computer_point = 0, 1
-            print("Computer wins! Computer got +1")
+            computer_point += 1
+            print("Computer won this round! Computer got +1 point.")
 
         case (3, "paper"):
-            user_point, computer_point = 0, 3
-            print("Computer wins! Computer got +3")   
+            computer_point += 3
+            print("Computer won this round! Computer got +3 points.")
 
-        case _:
-            if user_choice == "q":
-                break
+print("\n---------- GAME OVER ----------")
+print(f"Your total points: {user_point}")
+print(f"Computer total points: {computer_point}")
 
-        
+if user_point > computer_point:
+    print(f"Congratulations {name}, you won the game!")
+elif user_point < computer_point:
+    print(f"Sorry {name}, you lost the game.")
+else:
+    print("The game ended in a draw.")
+
+print("\nThank you for playing!")
+print("Goodbye!")
