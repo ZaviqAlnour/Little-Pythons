@@ -64,10 +64,31 @@ def view_All_Tasks():
                 print(f"Time to do : {row['task_due']}") 
 
 def editTask():
-    print("Your Task Edited")
+    edit_choice = int(input("Which task number do you want to edit?: "))
+    with open("tasks.csv", mode="r", newline="", encoding="utf-8") as file:
+        reader = csv.DictReader(file)
+
+        for row in reader:
+            if row["task_Number"] == edit_choice:
+                print(f"Found! Now rewrite your task {edit_choice}")
+
+
 
 def removeTask():
-    print("Hey task removed")
+    head = ["task_Number", "task_name", "task_detailes", "task_due"]
+    choice = input("Do you really want to clear the task list? Make sure you have completed all the items on the list. (y/n): ").lower()
+    choices = ['y', 'n', 'yes', 'no']
+    if choice in choices:
+        try:
+            with open("task.csv", 'w', newline='') as file:
+            # task_Number,task_name,task_detailes,task_due
+                writer = csv.writer(file)
+                writer.writerow(head)
+            print("Your Todays Task list has been cleared.")
+        except IOError as e:
+            print(f"Error clearing your Task list: {e}")
+
+
 
 
 main()
