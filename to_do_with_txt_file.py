@@ -34,8 +34,24 @@ def addTask():
         writer.writerow([task_number,task_name, task_setailes, task_Due])
     print(f"{task_name} added successfully as Task.")    
 
-def viewtask_byNumber():    
-    
+def viewtask_byNumber():
+    found = False
+    task_number = input("Enter the task number: ")  
+    with open("tasks.csv", mode="r", newline="", encoding="utf-8") as file:
+        reader = csv.DictReader(file)
+
+        for row in reader:
+            if row["task_Number"] == task_number:
+                print("\nTask Found:\n")
+                print(f"Priority   : {row['task_Number']}")
+                print(f"Task       : {row['task_name']}")
+                print(f"Details    : {row['task_detailes']}")
+                print(f"Time to do : {row['task_due']}")
+                found = True
+                break
+        else: print("Not Found!")            
+
+
 
 def view_All_Tasks():
     print("Hey these are your task")    
