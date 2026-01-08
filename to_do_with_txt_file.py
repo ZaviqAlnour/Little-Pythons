@@ -25,16 +25,17 @@ def fetures():
 def addTask():
     print("You have to write these to add Task")
     task_name = input("1.Task Name: ")
-    task_setailes = input("2.Detailes (up to 20 char): ")
-    task_Due = input("3.Due: ")
+    task_number = int(input("2.Task Number: "))
+    task_setailes = input("3.Detailes (up to 20 char): ")
+    task_Due = input("4.Due: ")
 
     with open("tasks.csv", mode="a", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
-        writer.writerow([task_name, task_setailes, task_Due])
+        writer.writerow([task_number,task_name, task_setailes, task_Due])
     print(f"{task_name} added successfully as Task.")    
 
 def viewtask_byNumber():    
-    print("Heres your all tasks")
+    
 
 def view_All_Tasks():
     print("Hey these are your task")    
