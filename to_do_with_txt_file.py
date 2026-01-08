@@ -19,7 +19,7 @@ def fetures():
     print("2. view your Task By Serial.")
     print("3. view All Tasks.")
     print("4. Edits Task.")
-    print("5. Remove Task.")
+    print("5. Remove Todays Tasks.")
     print("--------------------------------")
 
 def addTask():
@@ -54,7 +54,14 @@ def viewtask_byNumber():
 
 
 def view_All_Tasks():
-    print("Hey these are your task")    
+    with open("tasks.csv", mode="r", newline="", encoding="utf-8") as file:
+        reader = csv.DictReader(file)
+
+        for row in reader:
+                print(f"\nPriority   : {row['task_Number']}")
+                print(f"Task       : {row['task_name']}")
+                print(f"Details    : {row['task_detailes']}")
+                print(f"Time to do : {row['task_due']}") 
 
 def editTask():
     print("Your Task Edited")
