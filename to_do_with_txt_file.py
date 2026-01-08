@@ -7,15 +7,19 @@ def main():
 
     match choice:
         case 1: addTask()
-        case 2: view_tasks()
-        case 3: removeTask()
+        case 2: viewtask_byNumber()
+        case 3: view_All_Tasks()
+        case 4: editTask()
+        case 5: removeTask()
         case _: print("This isn't valid option")    
 
 def fetures():
     print("What doy want to do?"); print()
     print("1. Add Task.")
-    print("2. view your task Serially.")
-    print("3. Remove Task.")
+    print("2. view your Task By Serial.")
+    print("3. view All Tasks.")
+    print("4. Edits Task.")
+    print("5. Remove Task.")
     print("--------------------------------")
 
 def addTask():
@@ -29,8 +33,14 @@ def addTask():
         writer.writerow([task_name, task_setailes, task_Due])
     print(f"{task_name} added successfully as Task.")    
 
-def view_tasks():    
+def viewtask_byNumber():    
     print("Heres your all tasks")
+
+def view_All_Tasks():
+    print("Hey these are your task")    
+
+def editTask():
+    print("Your Task Edited")
 
 def removeTask():
     print("Hey task removed")
