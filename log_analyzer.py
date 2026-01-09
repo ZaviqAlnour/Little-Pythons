@@ -2,18 +2,21 @@ import csv
 from collections import Counter
 
 def main():
-    log_level_distribution()
+    csv_file = 'logFile.csv'
+    log_level_distribution(csv_file)
+    source_distribution(csv_file)
+    event_distribution(csv_file)
+    message_distribution(csv_file)
 
-csv_file = 'logFile.csv'
-iteams = []
 
-def log_level_distribution():
+
+def log_level_distribution(csv_file):
     items = []
 
     with open(csv_file, mode="r", newline="", encoding="utf-8") as file:
         reader = csv.DictReader(file)
         for row in reader:
-            items.append(row["level"])
+            items.append(row['level'])
 
     logs_count = Counter(items)
     total_items = sum(logs_count.values())
@@ -26,5 +29,78 @@ def log_level_distribution():
         percentage = (count / total_items) * 100
         print(f"{level}\t{count}\t{percentage:.2f}%")
 
+
+def source_distribution(csv_file):
+    items = []
+
+    with open(csv_file, mode="r", newline="", encoding="utf-8") as file:
+        reader = csv.DictReader(file)
+        reader.fieldnames = [name.strip() for name in reader.fieldnames]
+        for row in reader:
+            items.append(row['source'].strip())
+
+    logs_count = Counter(items)
+    total_items = sum(logs_count.values())
+
+    print(f"\nTotal items counted: {total_items}\n")
+    
+    header_fmt = "{:<20} {:>8} {:>10}"
+    print(header_fmt.format("Source", "Count", "Percentage"))
+    print("-" * 40)
+
+    row_fmt = "{:<20} {:>8} {:>9.2f}%"
+    for source, count in logs_count.items():
+        percentage = (count / total_items) * 100
+        print(row_fmt.format(source, count, percentage))
+
+
+def event_distribution(csv_file):
+    items = []
+
+    with open(csv_file, mode="r", newline="", encoding="utf-8") as file:
+        reader = csv.DictReader(file)
+        reader.fieldnames = [name.strip() for name in reader.fieldnames]
+        for row in reader:
+            items.append(row['event'].strip())
+
+    logs_count = Counter(items)
+    total_items = sum(logs_count.values())
+
+    print(f"\nTotal items counted: {total_items}\n")
+    
+    header_fmt = "{:<20} {:>8} {:>10}"
+    print(header_fmt.format("event", "Count", "Percentage"))
+    print("-" * 40)
+
+    row_fmt = "{:<20} {:>8} {:>9.2f}%"
+    for source, count in logs_count.items():
+        percentage = (count / total_items) * 100
+        print(row_fmt.format(source, count, percentage))
+
+def message_distribution(csv_file):
+    items = []
+
+    with open(csv_file, mode="r", newline="", encoding="utf-8") as file:
+        reader = csv.DictReader(file)
+        reader.fieldnames = [name.strip() for name in reader.fieldnames]
+        for row in reader:
+            items.append(row['message'].strip())
+
+    logs_count = Counter(items)
+    total_items = sum(logs_count.values())
+
+    print(f"\nTotal items counted: {total_items}\n")
+
+    max_message_length = max(len(msg) for msg in logs_count.keys())
+    message_col_width = max(max_message_length, len("Message")) + 2 
+
+    header_fmt = f"{{:<{message_col_width}}} {{:>8}} {{:>10}}"
+    print(header_fmt.format("Message", "Count", "Percentage"))
+    print("-" * (message_col_width + 8 + 10))
+
+    row_fmt = f"{{:<{message_col_width}}} {{:>8}} {{:>9.2f}}%"
+    for message, count in logs_count.items():
+        percentage = (count / total_items) * 100
+        print(row_fmt.format(message, count, percentage))
 
 main()
