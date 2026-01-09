@@ -1,5 +1,3 @@
-Here's a polished and professional README.md file for your Little Pythons project:
-
 🐍 Little Pythons
 A curated collection of beginner-friendly Python scripts that teach core programming concepts through practical, hands-on examples. Perfect for Python newcomers and intermediate learners building foundational skills.
 
