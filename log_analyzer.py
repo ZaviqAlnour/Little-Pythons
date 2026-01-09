@@ -1,15 +1,21 @@
 import csv
+import json
 from collections import Counter
 
 def main():
     csv_file = 'logFile.csv'
-    log_level_distribution(csv_file)
-    source_distribution(csv_file)
-    event_distribution(csv_file)
-    message_distribution(csv_file)
+    report = {}
 
+    report["logs_levels"] = log_level_distribution(csv_file)
+    report["sources"] = source_distribution(csv_file)
+    report["events"] = event_distribution(csv_file)
+    report["messages"] = message_distribution(csv_file)
 
+    with open("output.json", "w", encoding="utf-8") as file:
+        output = json.dump(report, file, indent=4)
 
+    print("\noutput.json file created successfully")
+    
 def log_level_distribution(csv_file):
     items = []
 
@@ -28,6 +34,8 @@ def log_level_distribution(csv_file):
     for level, count in logs_count.items():
         percentage = (count / total_items) * 100
         print(f"{level}\t{count}\t{percentage:.2f}%")
+
+    return {"total": total_items,"data": logs_count}
 
 
 def source_distribution(csv_file):
@@ -55,6 +63,7 @@ def source_distribution(csv_file):
         percentage = (count / total_items) * 100
         print(row_fmt.format(source, count, percentage))
 
+    return {"total": total_items,"data": logs_count}
 
 def event_distribution(csv_file):
     items = []
@@ -79,6 +88,8 @@ def event_distribution(csv_file):
     for source, count in logs_count.items():
         percentage = (count / total_items) * 100
         print(row_fmt.format(source, count, percentage))
+
+    return {"total": total_items,"data": logs_count}
 
 def message_distribution(csv_file):
     items = []
@@ -106,5 +117,7 @@ def message_distribution(csv_file):
     for message, count in logs_count.items():
         percentage = (count / total_items) * 100
         print(row_fmt.format(message, count, percentage))
+
+    return {"total": total_items,"data": logs_count}
 
 main()
