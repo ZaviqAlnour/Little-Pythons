@@ -37,7 +37,8 @@ def source_distribution(csv_file):
         reader = csv.DictReader(file)
         reader.fieldnames = [name.strip() for name in reader.fieldnames]
         for row in reader:
-            items.append(row['source'].strip())
+            if row['level'] in ['WARN', 'ERROR']:
+                items.append(row['source'].strip())
 
     logs_count = Counter(items)
     total_items = sum(logs_count.values())
@@ -48,6 +49,7 @@ def source_distribution(csv_file):
     print(header_fmt.format("Source", "Count", "Percentage"))
     print("-" * 40)
 
+    print('\033[31m' + 'Issues Detected (WARN + ERROR): ' + '\033[0m');print()
     row_fmt = "{:<20} {:>8} {:>9.2f}%"
     for source, count in logs_count.items():
         percentage = (count / total_items) * 100
@@ -61,13 +63,14 @@ def event_distribution(csv_file):
         reader = csv.DictReader(file)
         reader.fieldnames = [name.strip() for name in reader.fieldnames]
         for row in reader:
-            items.append(row['event'].strip())
+            if row['level'] in ['WARN', 'ERROR']:
+                items.append(row['event'].strip())
 
     logs_count = Counter(items)
     total_items = sum(logs_count.values())
 
     print(f"\nTotal items counted: {total_items}\n")
-    
+    print('\033[31m' + 'Issues Detected (WARN + ERROR): ' + '\033[0m');print()
     header_fmt = "{:<20} {:>8} {:>10}"
     print(header_fmt.format("event", "Count", "Percentage"))
     print("-" * 40)
@@ -84,13 +87,14 @@ def message_distribution(csv_file):
         reader = csv.DictReader(file)
         reader.fieldnames = [name.strip() for name in reader.fieldnames]
         for row in reader:
-            items.append(row['message'].strip())
+            if row['level'] in ['WARN', 'ERROR']:
+                items.append(row['message'].strip())
 
     logs_count = Counter(items)
     total_items = sum(logs_count.values())
 
     print(f"\nTotal items counted: {total_items}\n")
-
+    print('\033[31m' + 'Issues Detected (WARN + ERROR): ' + '\033[0m');print()
     max_message_length = max(len(msg) for msg in logs_count.keys())
     message_col_width = max(max_message_length, len("Message")) + 2 
 
