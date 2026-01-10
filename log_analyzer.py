@@ -8,7 +8,6 @@ def load_logs(csv_file):
     if not os.path.exists(csv_file):
         print(f"\033[31mError: File not found: {csv_file}\033[0m")
         sys.exit()
-
     logs = []
 
     with open(csv_file, mode="r", newline="", encoding="utf-8") as file:
@@ -21,7 +20,7 @@ def load_logs(csv_file):
 
     return logs        
 
-def print_distrubution(title, counts, label):
+def print_distribution(title, counts, label):
     total = sum(counts.values())
     print(f"\n{title}")
     print(f"Total items counted: {total}\n")
@@ -45,7 +44,7 @@ def log_level_distribution(logs):
     levels = [row.get("level", "UNKNOWN") for row in logs]
     counts = Counter(levels)
 
-    print_distrubution(
+    print_distribution(
         title="ALL Log Levels",
         counts=counts,
         label="Level"
@@ -64,7 +63,7 @@ def error_distribution(logs, field):
     counts = Counter(items)
 
     print("\033[31mIssues Detected (WARN + ERROR):\033[0m")
-    print_distrubution(
+    print_distribution(
         title=f"{field.capitalize()} Distribution",
         counts=counts,
         label=field.capitalize()
@@ -73,11 +72,13 @@ def error_distribution(logs, field):
     return {"total": sum(counts.values()), "data": dict(counts)}
 
 def main():
-    print("Core python Log Analyzer")
-    print("-" * 30)
-
     logs = load_logs(csv_file)
 
+    if not logs:
+         sys.exit()
+    
+    print("Core python Log Analyzer")
+    print("-" * 30)
     report = {}
     report["logs_levels"] = log_level_distribution(logs)
     report["sources"] = error_distribution(logs, "source")
