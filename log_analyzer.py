@@ -1,10 +1,19 @@
 import csv
 import json
 from collections import Counter
+import sys
+import os
 
 def main():
     csv_file = 'logFile.csv'
     report = {}
+
+    if not os.path.exists(csv_file):
+        print(f'\033[31mError: File not found: {csv_file}\033[0m')
+        print()
+        sys.exit()
+
+
 
     report["logs_levels"] = log_level_distribution(csv_file)
     report["sources"] = source_distribution(csv_file)
